@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "632264b5-b20f-4ac8-ae48-41fa765f94fb",
+		"name": "Desafio_Evertec",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21921157",
+		"_collection_link": "https://restless-resonance-817303.postman.co/workspace/Desafio_Evertec~23c7fbed-9498-4667-a8c6-28a834095d15/collection/21921157-632264b5-b20f-4ac8-ae48-41fa765f94fb?action=share&source=collection_link&creator=21921157"
+	},
+	"item": [
+		{
+			"name": "Listar_Breeds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1. Validação do Status Code\r",
+							"pm.test(\"Status code é 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Extrair um Breed para a próxima requisição\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    const breedsObject = responseData.message;\r",
+							"\r",
+							"    const breedNames = Object.keys(breedsObject);\r",
+							"    \r",
+							"    pm.expect(breedNames.length).to.be.above(0, \"A lista de raças não deve estar vazia.\");\r",
+							" \r",
+							"    const randomIndex = Math.floor(Math.random() * breedNames.length);\r",
+							"  \r",
+							"    const selectedBreed = breedNames[randomIndex];\r",
+							"    \r",
+							"    pm.environment.set(\"current_breed\", selectedBreed);\r",
+							"    \r",
+							"    console.log(\"Raça salva no ambiente: \" + selectedBreed);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status no corpo da resposta é 'success'\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.status).to.eql(\"success\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/breeds/list/all",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"breeds",
+						"list",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar_Imagem_Breed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1. Validação do Status Code\r",
+							"pm.test(\"Status code é 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/breed/{{current_breed}}/images",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"breed",
+						"{{current_breed}}",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar_Imagem_Breed_Random",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1. Validação do Status Code\r",
+							"pm.test(\"Status code é 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status no corpo da resposta é 'success'\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.status).to.eql(\"success\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/breeds/image/random",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"breeds",
+						"image",
+						"random"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
